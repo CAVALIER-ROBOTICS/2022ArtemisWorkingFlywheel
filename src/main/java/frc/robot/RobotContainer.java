@@ -39,8 +39,11 @@ import frc.robot.commands.ShootCommands.HomeHoodCommand;
 import frc.robot.commands.ShootCommands.HoodCommand;
 import frc.robot.commands.ShootCommands.KickCommand;
 import frc.robot.commands.ShootCommands.ShootCommand;
+import frc.robot.commands.TurretCommands.AimCommand;
 import frc.robot.commands.TurretCommands.ManualAimDownCommand;
 import frc.robot.commands.TurretCommands.ManualAimUpCommand;
+import frc.robot.commands.TurretCommands.StartTurretCommand;
+import frc.robot.commands.TurretCommands.TurnTurretCommand;
 import frc.robot.subsystems.DriveTrainSubsystems;
 import frc.robot.subsystems.HoodSubsystem;
 import frc.robot.subsystems.HopperFloorSubsystem;
@@ -94,14 +97,14 @@ public class RobotContainer {
  
     
 
-    // turretSub.setDefaultCommand( new SequentialCommandGroup(
-    //   new TurnTurretCommand(turretSub),
-    //   new StartTurretCommand(turretSub),
-    //   new AimCommand(turretSub)));
+    turretSub.setDefaultCommand( new SequentialCommandGroup(
+      new TurnTurretCommand(turretSub),
+      new StartTurretCommand(turretSub),
+      new AimCommand(turretSub)));
 
-    // hoodSub.setDefaultCommand(
-    //   // new HomeHoodCommand(hoodSub),
-    //   new HoodCommand(hoodSub));
+    hoodSub.setDefaultCommand(
+      // new HomeHoodCommand(hoodSub),
+      new HoodCommand(hoodSub));
 
     // traversalSub.setDefaultCommand(
     //   new TraversalClimbCommand(

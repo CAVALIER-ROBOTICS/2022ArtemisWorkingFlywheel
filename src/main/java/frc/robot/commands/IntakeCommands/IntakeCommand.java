@@ -20,11 +20,11 @@ public class IntakeCommand extends ParallelCommandGroup {
 
     addCommands(
       new StartEndCommand(
-        ()-> intakeSub.setIntakeMotor(2), 
+        ()-> intakeSub.setIntakeMotor(20), 
         ()-> intakeSub.stopIntake(),
         intakeSub),
       new StartEndCommand(
-        () -> floorSub.setFloor(2), 
+        () -> floorSub.setFloor(4),
         () -> floorSub.stopFloor(),
         floorSub));
   }

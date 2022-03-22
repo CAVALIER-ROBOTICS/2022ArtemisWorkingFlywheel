@@ -28,7 +28,7 @@ public class LeftClimbSubsytem extends SubsystemBase {
     leftClimb.setIdleMode(IdleMode.kBrake);
     leftClimb.setInverted(false);
     // leftClimb.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65410);
-    leftPID.setP(.2);
+    leftPID.setP(.1);
     leftPID.setI(0);
     leftPID.setD(0);
     // leftPID.setOutputRange(-.2, .2);
@@ -44,18 +44,18 @@ public class LeftClimbSubsytem extends SubsystemBase {
   public void set(double x)
   {
     leftClimb.set(x);
-    SmartDashboard.putBoolean("leftClimbWorks", false);
+    // SmartDashboard.putBoolean("leftClimbWorks", false);
   }
 
   public void setPos() {
     leftPID.setReference(leftEnc.getPosition(), CANSparkMax.ControlType.kPosition);
-    SmartDashboard.putBoolean("leftClimbWorks", true);
+    // SmartDashboard.putBoolean("leftClimbWorks", true);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("LeftClimb out", leftClimb.get());
+    // SmartDashboard.putNumber("LeftClimb out", leftClimb.get());
 
 
   }

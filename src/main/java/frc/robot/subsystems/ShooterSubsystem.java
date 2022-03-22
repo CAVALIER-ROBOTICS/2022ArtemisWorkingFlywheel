@@ -77,10 +77,10 @@ public class ShooterSubsystem extends SubsystemBase {
     // /* config all the settings */
     // talon.configAllSettings(configs);
 
-    right.configVoltageCompSaturation(11.5); // "full output" will now scale to 11 Volts for all control modes when enabled.
+    right.configVoltageCompSaturation(11); // "full output" will now scale to 11 Volts for all control modes when enabled.
     right.enableVoltageCompensation(true);
 
-    left.configVoltageCompSaturation(11.5); 
+    left.configVoltageCompSaturation(11); 
     left.enableVoltageCompensation(true);
 
     // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 65300);
@@ -92,7 +92,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_4_AinTempVbat, 65300);
     // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_12_Feedback1, 65300); 
 
-    double ff = 0.057;
+    double ff = 0.06;
     double p = 0.168;
     double i = 0;
     double d = 0;

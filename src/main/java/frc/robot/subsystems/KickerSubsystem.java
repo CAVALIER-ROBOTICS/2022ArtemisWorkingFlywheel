@@ -20,7 +20,7 @@ public class KickerSubsystem extends SubsystemBase {
   {
     kickerMotor.restoreFactoryDefaults();
     kickerMotor.setIdleMode(IdleMode.kCoast);
-    kickerMotor.setInverted(true);
+    kickerMotor.setInverted(false);
 
     kickerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 64700);
     // kickerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 100);

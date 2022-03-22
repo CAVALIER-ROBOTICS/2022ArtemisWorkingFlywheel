@@ -15,11 +15,11 @@ import frc.robot.subsystems.HoodSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class HoodCommand extends PIDCommand {
   /** Creates a new HoodCommand. */
+  HoodSubsystem hood;
   public HoodCommand(HoodSubsystem hoodSub) {
-
     super(
         // The controller that the command will use
-        new PIDController(0.05, 0.007, 0),
+        new PIDController(0.025, 0.007, 0),
         // This should return the measurement
         hoodSub::getAngle,
         // This should return the setpoint (can also be a constant)
@@ -33,12 +33,13 @@ public class HoodCommand extends PIDCommand {
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
+    hood = hoodSub;
     addRequirements(hoodSub);
  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return hood.getVoltage()>23;
   }
 }

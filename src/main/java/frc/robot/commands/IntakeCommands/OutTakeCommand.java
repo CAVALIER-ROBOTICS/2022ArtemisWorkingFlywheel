@@ -20,15 +20,15 @@ public class OutTakeCommand extends ParallelCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new StartEndCommand(
-        ()-> intakeSub.setIntakeMotor(-3), 
+        ()-> intakeSub.setIntakeMotor(-15), 
         ()-> intakeSub.stopIntake(),
         intakeSub),
       new StartEndCommand(
-        ()-> floorSub.setFloor(-3),
+        ()-> floorSub.setFloor(-15),
         ()-> floorSub.stopFloor(), 
         floorSub),
       new StartEndCommand(
-        ()-> kickSub.setKicker(-3), 
+        ()-> kickSub.setKicker(-15), 
         ()-> kickSub.stopKicker(),
         kickSub)
     );

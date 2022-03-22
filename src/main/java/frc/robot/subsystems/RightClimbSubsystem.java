@@ -29,7 +29,7 @@ public class RightClimbSubsystem extends SubsystemBase {
     rightClimb.setInverted(false);
     // rightClimb.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65360);
 
-    rightPID.setP(.2);
+    rightPID.setP(.1);
     rightPID.setI(0);
     rightPID.setD(0);
     // rightPID.setOutputRange(-.2, .2);
@@ -47,7 +47,7 @@ public class RightClimbSubsystem extends SubsystemBase {
 
   public void setPos() {
     rightPID.setReference(rightEnc.getPosition(), CANSparkMax.ControlType.kPosition);
-    SmartDashboard.putNumber("rightCLimbEnc", rightEnc.getPosition());
+    // SmartDashboard.putNumber("rightCLimbEnc", rightEnc.getPosition());
   }
 
   @Override

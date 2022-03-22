@@ -40,12 +40,11 @@ public class TraversalAngleSubsystem extends SubsystemBase {
   
   public void setAnglePos() {
     anglePID.setReference(angleEnc.getPosition(), CANSparkMax.ControlType.kPosition);
-    SmartDashboard.putNumber("angleEnc", angleEnc.getPosition());
-
+    // SmartDashboard.putNumber("angleEnc", angleEnc.getPosition());
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("AngleClimb output", angle.get());
+    // SmartDashboard.putNumber("AngleClimb output", angle.get());
   }
 }

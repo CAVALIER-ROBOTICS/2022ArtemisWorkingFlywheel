@@ -25,7 +25,7 @@ public class TraversalClimbSubsystem extends SubsystemBase {
     climb.restoreFactoryDefaults();
     climb.setIdleMode(IdleMode.kBrake);
     climb.setInverted(true);
-    climbPID.setP(0.1);
+    climbPID.setP(0.05);
     climbPID.setI(0);
     climbPID.setD(0);
     // climbPID.setOutputRange(-.2, .2);
@@ -40,11 +40,11 @@ public class TraversalClimbSubsystem extends SubsystemBase {
 
   public void setClimbPos() {
     climbPID.setReference(climbEnc.getPosition(), ControlType.kPosition);
-    SmartDashboard.putNumber("traversalEnc", climbEnc.getPosition());
+    // SmartDashboard.putNumber("traversalEnc", climbEnc.getPosition());
   }
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("traversalClimb output", climb.get());
+    // SmartDashboard.putNumber("traversalClimb output", climb.get());
   }
 }
