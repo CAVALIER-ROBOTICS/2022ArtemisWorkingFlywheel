@@ -25,7 +25,7 @@ public class TraversalClimbSubsystem extends SubsystemBase {
     climb.restoreFactoryDefaults();
     climb.setIdleMode(IdleMode.kBrake);
     climb.setInverted(true);
-    climbPID.setP(0.05);
+    climbPID.setP(0.03);
     climbPID.setI(0);
     climbPID.setD(0);
     // climbPID.setOutputRange(-.2, .2);

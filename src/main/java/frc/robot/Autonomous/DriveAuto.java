@@ -4,6 +4,8 @@
 
 package frc.robot.Autonomous;
 
+import java.util.ArrayList;
+
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
@@ -11,6 +13,7 @@ import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
@@ -25,17 +28,28 @@ public class DriveAuto {
     ProfiledPIDController thetaController;
 
     public DriveAuto(DriveTrainSubsystems d) {
+       
         driveSub = d;
-        simplePath = PathPlanner.loadPath("SimpleAutoPath", 4, 2); //add true if the auto is reversed
-        complexPath = PathPlanner.loadPath("ComplexAutoPath1", 4, 2);
         thetaController = new ProfiledPIDController(Constants.ThetaController, .6, .1, Constants.thetaControllerConstraints);
-
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
     }
 
-    public Command getSimpleDriveAuto() {
+    public ArrayList<PathPlannerTrajectory> loadTrajectories() {
+        //PathPlannerTrajectory[] trajectoryList = {};
+        ArrayList<PathPlannerTrajectory> trajectoryList = new ArrayList<PathPlannerTrajectory>();
+        for (int i = 0; i < Constants.autonFiles.length; i++) {
+            System.out.println(i);
+
+          trajectoryList.add(i, PathPlanner.loadPath(Constants.autonFiles[i], 2, 4));
+        }
+        return trajectoryList;
+    }
+    //lol12
+    public Command getPathAuto(int desiredPath) {
+        System.out.println("Hehehehe  :)");
+        ArrayList<PathPlannerTrajectory> loadedTrajectories = loadTrajectories();
         PPSwerveControllerCommand command = new PPSwerveControllerCommand(
-        simplePath,
+       loadedTrajectories.get(desiredPath),
         driveSub::getPose,
         Constants.m_kinematics,
         new PIDController(Constants.XController, 0, 0),
@@ -46,21 +60,7 @@ public class DriveAuto {
 
         // Run path following command, then stop at the end.
         return command.andThen(() -> driveSub.drive(new ChassisSpeeds(0,0,0))).beforeStarting(
-            new InstantCommand(() -> driveSub.resetOdometry(simplePath.getInitialPose())));
+            new InstantCommand(() -> driveSub.resetOdometry(loadedTrajectories.get(desiredPath).getInitialPose())));
     }
 
-    public Command getComplexAuto() {
-        PPSwerveControllerCommand command = new PPSwerveControllerCommand(
-        complexPath,
-        driveSub::getPose,
-        Constants.m_kinematics,
-        new PIDController(Constants.XController, 0, 0),
-        new PIDController(Constants.YController, 0, 0),
-        thetaController,
-        driveSub::setModules,
-        driveSub);
-
-        return command.andThen(() -> driveSub.drive(new ChassisSpeeds(0,0,0))).beforeStarting(
-            new InstantCommand(() -> driveSub.resetOdometry(complexPath.getInitialPose())));
-    }
 }

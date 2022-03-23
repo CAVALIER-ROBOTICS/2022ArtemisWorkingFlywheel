@@ -62,32 +62,33 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    autoSequence = robotContainer.getSequientialCommand();
+    autoSequence = robotContainer.getSequentialCommand();
     autoIntake = robotContainer.getIntakeCommand();
     autoShoot = robotContainer.getShootCommand();
     autoKick = robotContainer.getKickerCommand();
     autoAim = robotContainer.getAutoAim();
 
-    if(autoSequence != null) {
-      autoSequence.schedule();
-    }
+    // if(autoSequence != null) {
+    //   autoSequence.schedule();
+    // }
 
-    if(autoIntake != null) {
-      autoIntake.schedule();
-    }
+    // if(autoIntake != null) {
+    //   autoIntake.schedule();
+    // }
 
-    if(autoShoot != null) {
-      autoShoot.schedule();
-    }
+    // if(autoShoot != null) {
+    //   autoShoot.schedule();
+    // }
 
-    if(autoKick != null) {
-      autoKick.schedule();
-    }
+    // if(autoKick != null) {
+    //   autoKick.schedule();
+    // }
 
     if(autoAim != null) {
       autoAim.schedule();
     }
 
+    robotContainer.resetOdo();
     
     // schedule the autonomous command (example)
     // if (autoDrive != null) {

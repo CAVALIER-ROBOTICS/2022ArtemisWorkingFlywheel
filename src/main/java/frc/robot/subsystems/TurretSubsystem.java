@@ -46,7 +46,7 @@ public class TurretSubsystem extends SubsystemBase {
 
     turret.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 64200);
 
-    kP = 0.08; 
+    kP = 0.09; 
     kI = 0.000;
     kD = 0; 
     kIz = 0; 
@@ -68,6 +68,7 @@ public class TurretSubsystem extends SubsystemBase {
     turnUp = false;
     turnDown = false;
 
+    turret.setOpenLoopRampRate(0.7);
   }
 
   public void softLimit(boolean x)

@@ -4,6 +4,7 @@
 
 package frc.robot.commands.ClimbCommands;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,12 +13,15 @@ import frc.robot.subsystems.RightClimbSubsystem;
 
 public class RightClimbCommand extends CommandBase {
   /** Creates a new RightClimbCommand. */
-  RightClimbSubsystem right;
-  DoubleSupplier xtrans;
-  public RightClimbCommand(RightClimbSubsystem r, DoubleSupplier x) {
+  RightClimbSubsystem rightClimb;
+  BooleanSupplier upButton;
+  BooleanSupplier downButton;
+
+  public RightClimbCommand(RightClimbSubsystem r, BooleanSupplier up, BooleanSupplier down) {
     // Use addRequirements() here to declare subsystem dependencies.
-    right = r;
-    xtrans = x;
+    rightClimb = r;
+    upButton = up;
+    downButton = down;
     addRequirements(r);
   }
 
@@ -28,12 +32,14 @@ public class RightClimbCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(xtrans.getAsDouble()>0.1||xtrans.getAsDouble()<-.1)
-    {
-      right.set(xtrans.getAsDouble());
+    if(upButton.getAsBoolean()) {
+      rightClimb.set(.5);
+    }
+    else if(downButton.getAsBoolean()) {
+      rightClimb.set(-.5);
     }
     else {
-      right.setPos();
+      rightClimb.setPos();
     }
   }
 

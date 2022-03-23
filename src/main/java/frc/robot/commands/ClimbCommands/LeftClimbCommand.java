@@ -4,6 +4,7 @@
 
 package frc.robot.commands.ClimbCommands;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -12,14 +13,18 @@ import frc.robot.subsystems.RightClimbSubsystem;
 
 public class LeftClimbCommand extends CommandBase {
   /** Creates a new LeftClimbCommand. */
-  LeftClimbSubsytem left;
-  DoubleSupplier xtrans;
+  LeftClimbSubsytem leftClimb;
+  BooleanSupplier upButton;
+  BooleanSupplier downButton;
   
-  public LeftClimbCommand(LeftClimbSubsytem r, DoubleSupplier x) {
+
+  
+  public LeftClimbCommand(LeftClimbSubsytem l, BooleanSupplier up, BooleanSupplier down) {
     // Use addRequirements() here to declare subsystem dependencies.
-    left = r;
-    xtrans = x;
-    addRequirements(r);
+    leftClimb = l;
+    upButton = up;
+    downButton = down;
+    addRequirements(l);
   }
 
   // Called when the command is initially scheduled.
@@ -29,12 +34,14 @@ public class LeftClimbCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(xtrans.getAsDouble()>0.1||xtrans.getAsDouble()<-.1)
-    {
-      left.set(xtrans.getAsDouble());
+    if(upButton.getAsBoolean()) {
+      leftClimb.set(.5);
+    }
+    else if(downButton.getAsBoolean()) {
+      leftClimb.set(-.5);
     }
     else {
-      left.setPos();
+      leftClimb.setPos();
     }
   }
 

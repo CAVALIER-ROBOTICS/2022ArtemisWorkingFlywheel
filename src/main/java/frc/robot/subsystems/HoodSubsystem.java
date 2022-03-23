@@ -23,9 +23,9 @@ public class HoodSubsystem extends SubsystemBase {
   public HoodSubsystem() {
     hoodMotor.restoreFactoryDefaults();
     hoodMotor.setInverted(true);
-    hoodEnc.setPosition(0);
-    hoodMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 65500);
-    hoodMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 60000);
+    // hoodEnc.setPosition(0);
+    // hoodMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 65500);
+    // hoodMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 60000);
     hoodMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65510);
     hoodEnc.setPosition(0);
   }

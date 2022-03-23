@@ -20,13 +20,16 @@ public class InterpolatingTable
             entry(.9, new ShotParameter(23, 1800, 0.0)),
             entry(1.3, new ShotParameter(25, 1900, 0.0)),
             entry(1.6, new ShotParameter(27, 1950, 0.0)),
+            entry(1.8, new ShotParameter(27, 1970, 0.0)),
             entry(1.9, new ShotParameter(28, 2000, 0.0)),
             entry(2.2, new ShotParameter(30, 2100, 0.0)),
             entry(2.4, new ShotParameter(29, 2100, 0.0)),
+            entry(2.6, new ShotParameter(29.5, 2100, 0.0)),
             entry(2.8, new ShotParameter(30, 2100, 0.0)),
             entry(3.2, new ShotParameter(30, 2200, 0.0)),
             entry(3.6, new ShotParameter(35, 2300, 0.0)),
-            entry(4.0, new ShotParameter(38, 2300, 0.0)),
+            entry(3.8, new ShotParameter(36.5, 2400, 0.0)),
+            entry(4.0, new ShotParameter(38, 2400, 0.0)),
             entry(4.3, new ShotParameter(40, 2400, 0.0))
         )
     );

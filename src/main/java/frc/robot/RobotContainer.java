@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -31,6 +34,8 @@ import frc.robot.commands.ClimbCommands.InTraversalClimbCommand;
 import frc.robot.commands.ClimbCommands.LeftClimbCommand;
 import frc.robot.commands.ClimbCommands.OutTraversalClimbCommand;
 import frc.robot.commands.ClimbCommands.RightClimbCommand;
+import frc.robot.commands.ClimbCommands.TraversalAngleCommand;
+import frc.robot.commands.ClimbCommands.TraversalClimbCommand;
 import frc.robot.commands.DriveCommands.FieldDriveCommand;
 import frc.robot.commands.DriveCommands.RobotDriveCommand;
 import frc.robot.commands.IntakeCommands.IntakeCommand;
@@ -83,6 +88,13 @@ public class RobotContainer {
 
   // PathPlannerTrajectory path1;
   // PathPlannerTrajectory path2;
+  PathPlannerTrajectory path;
+
+  Trigger leftClimbDown = new Trigger(()-> getLeftTrigger());
+  Trigger rightClimbDown = new Trigger(()-> getRightTrigger());
+
+  Trigger leftClimbUp = new Trigger(()-> getOperatorLeftBumper());
+  Trigger rightClimbUp = new Trigger(()-> getOperatorRightBumper());
 
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -93,6 +105,8 @@ public class RobotContainer {
     // path2 = PathPlanner.loadPath("ComplexAutoPath2", 2, 1);
 
     // Configure the button bindings
+    path = PathPlanner.loadPath("SimpleAutoPath", 2, 1);
+
     configureButtonBindings();
  
     
@@ -112,7 +126,14 @@ public class RobotContainer {
     //     ()->  modifyAxis(operator.getRightX()), 
     //     ()-> modifyAxis(operator.getRightY())));
 
+    traversalAngleSub.setDefaultCommand(new TraversalAngleCommand(traversalAngleSub,()-> operator.getRightY()*-5));
+    traversalClimbSub.setDefaultCommand(new TraversalClimbCommand(traversalClimbSub,()-> operator.getLeftY()*5));
 
+    leftClimb.setDefaultCommand(new LeftClimbCommand(leftClimb, ()-> leftClimbUp.getAsBoolean(), ()-> leftClimbDown.getAsBoolean()));
+    rightClimb.setDefaultCommand(new RightClimbCommand(rightClimb, ()->rightClimbUp.getAsBoolean(), ()->rightClimbDown.getAsBoolean()));
+
+    // leftClimb.setDefaultCommand(new HoldLeftCommand(leftClimb));
+    // rightClimb.setDefaultCommand(new HoldRightCommand(rightClimb));
 
     //passes conditional command into the default command of drive
     driveSub.setDefaultCommand(
@@ -123,11 +144,11 @@ public class RobotContainer {
         driveSub
       ));
 
-    rightClimb.setDefaultCommand(new RightClimbCommand(rightClimb, ()->operator.getRightY()));
-    leftClimb.setDefaultCommand(new LeftClimbCommand(leftClimb, ()->operator.getLeftY()));
+    // rightClimb.setDefaultCommand(new RightClimbCommand(rightClimb, ()->operator.getRightY()));
+    // leftClimb.setDefaultCommand(new LeftClimbCommand(leftClimb, ()->operator.getLeftY()));
 
-    traversalAngleSub.setDefaultCommand(new HoldTraversalAngleCommand(traversalAngleSub));
-    traversalClimbSub.setDefaultCommand(new HoldTraversalCommand(traversalClimbSub));
+    // traversalAngleSub.setDefaultCommand(new HoldTraversalAngleCommand(traversalAngleSub));
+    // traversalClimbSub.setDefaultCommand(new HoldTraversalCommand(traversalClimbSub));
 
         
     // Configure the button bindings
@@ -153,10 +174,12 @@ public class RobotContainer {
     // JoystickButton moveClimbBack = new JoystickButton(operator, 2);
     // JoystickButton moveClimbForward = new JoystickButton(operator, 3);
 
-    Trigger traversalDown = new Trigger(()-> getDownDPad());
-    Trigger traversalUp = new Trigger(()-> getUpDPad());
-    Trigger angleTraversalUp = new Trigger(()-> getRightDPad());
-    Trigger angleTraversalDown = new Trigger(()-> getLeftDPad());
+    // Trigger traversalDown = new Trigger(()-> getDownDPad());
+    // Trigger traversalUp = new Trigger(()-> getUpDPad());
+    // Trigger angleTraversalUp = new Trigger(()-> getRightDPad());
+    // Trigger angleTraversalDown = new Trigger(()-> getLeftDPad());
+    
+
 
     JoystickButton aimUp = new JoystickButton(operator,3);
     JoystickButton aimDown = new JoystickButton(operator,2);
@@ -165,6 +188,33 @@ public class RobotContainer {
 
     // raiseHood.whileActiveContinuous(new StartEndCommand(()->hoodSub.setHood(.3), ()->hoodSub.setHood(0), hoodSub));
     // lowerHood.whileActiveContinuous(new StartEndCommand(()->hoodSub.setHood(-.3), ()->hoodSub.setHood(0), hoodSub));
+
+    // leftClimbDown.whileActiveContinuous(
+    //   new StartEndCommand(
+    //     ()-> leftClimb.set(-.5),
+    //     ()-> leftClimb.stop(),
+    //     leftClimb));
+    
+    // rightClimbDown.whileActiveContinuous(
+    //   new StartEndCommand(
+    //     ()-> rightClimb.set(-.5),
+    //     ()-> rightClimb.stop(), 
+    //     rightClimb));
+
+    // leftClimbUp.whileActiveContinuous(
+    //   new StartEndCommand(
+    //     ()-> leftClimb.set(.5), 
+    //     ()-> leftClimb.stop(), 
+    //     leftClimb));
+    
+    // rightClimbUp.whileActiveContinuous(
+    //   new StartEndCommand(
+    //     ()-> rightClimb.set(.5), 
+    //     ()-> rightClimb.stop(), 
+    //     rightClimb));
+
+    
+
 
     intake.whenHeld(
       new IntakeCommand(intakeSub, floorSub));
@@ -178,20 +228,20 @@ public class RobotContainer {
     // ));
 
     
-    traversalDown.whileActiveContinuous(new InTraversalClimbCommand(traversalClimbSub));
-    traversalUp.whileActiveContinuous(new OutTraversalClimbCommand(traversalClimbSub));
+    // traversalDown.whileActiveContinuous(new InTraversalClimbCommand(traversalClimbSub));
+    // traversalUp.whileActiveContinuous(new OutTraversalClimbCommand(traversalClimbSub));
 
-    angleTraversalDown.whileActiveContinuous(
-      new StartEndCommand(
-        ()-> traversalAngleSub.setAngle(-15),
-        ()-> traversalAngleSub.setAngle(0), 
-        traversalAngleSub));
+    // angleTraversalDown.whileActiveContinuous(
+    //   new StartEndCommand(
+    //     ()-> traversalAngleSub.setAngle(-15),
+    //     ()-> traversalAngleSub.setAngle(0), 
+    //     traversalAngleSub));
     
-    angleTraversalUp.whileActiveContinuous(
-      new StartEndCommand(
-        ()-> traversalAngleSub.setAngle(15), 
-        ()-> traversalAngleSub.setAngle(0),
-        traversalAngleSub));
+    // angleTraversalUp.whileActiveContinuous(
+    //   new StartEndCommand(
+    //     ()-> traversalAngleSub.setAngle(15), 
+    //     ()-> traversalAngleSub.setAngle(0),
+    //     traversalAngleSub));
 
     // climbUp.whileActiveContinuous(new ParallelCommandGroup(
     //   new StartEndCommand(
@@ -262,8 +312,8 @@ public class RobotContainer {
       
     
   
-    aimUp.whileActiveContinuous(new ManualAimUpCommand(turretSub));
-    aimDown.whileActiveContinuous(new ManualAimDownCommand(turretSub));
+    aimUp.whileActiveContinuous(new ManualAimUpCommand(turretSub),true);
+    aimDown.whileActiveContinuous(new ManualAimDownCommand(turretSub),true);
 
     shoot.whileActiveContinuous(new ShootCommand(shooterSub));
 
@@ -280,55 +330,22 @@ public class RobotContainer {
     ));
   }
   
-  // public void resetOdo() {
-  //   driveSub.resetOdometry(path.getInitialPose());
-  // }
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getDriveCommand() {
-    // driveSub.resetOdometry(Robot.autoTrajectory.getInitialPose());
-
-    
-    // var transform = driveSubsystem.getCurrentPose().minus(exampleTrajectory.getInitialPose());
-    // exampleTrajectory = straightTrajectory.transformBy(transform);
-    // Transform2d transform = driveSub.getPose().minus(path.getInitialPose());
-    // path.recalculateValues(transform, false);
-
-    // var thetaController = new ProfiledPIDController(Constants.ThetaController, 0, 0, Constants.thetaControllerConstraints);
-    //   thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-    // PPSwerveControllerCommand command = new PPSwerveControllerCommand(
-    // path,
-    // driveSub::getPose,
-    // Constants.m_kinematics,
-    // new PIDController(Constants.XController, 0, 0),
-    // new PIDController(Constants.YController, 0, 0),
-    // thetaController,
-    // driveSub::setModules,
-    // driveSub);
-
-
-
-
-    // Run path following command, then stop at the end.
-    // return command.andThen(() -> driveSub.drive(new ChassisSpeeds(0,0,0))).beforeStarting(
-    //     new InstantCommand(() -> driveSub.resetOdometry(path.getInitialPose()))
-        // );
-    // return command;
-
-    // Run path following command, then stop at the end.
-
-    return autoDrive.getSimpleDriveAuto();
+  public void resetOdo() {
+    driveSub.resetOdometry(path.getInitialPose());
   }
 
-  public Command getSequientialCommand() { 
-    // return new AutonSetUpCommand(driveSub, leftClimb, rightClimb);
-    return null;
-    }
+
+  public Command getSequentialCommand() { 
+    Command commandToReturn = new SequentialCommandGroup(
+      new SequentialCommandGroup(
+      new DriveAuto(driveSub).getPathAuto(0)
+     //  driveAuto.getPathAuto(1), 
+     //  driveAuto.getPathAuto(2), 
+     //  driveAuto.getPathAuto(3)
+     ));
+      
+      return commandToReturn;
+   }
 
   public Command getShootCommand() {
     return new ShootCommand(shooterSub).beforeStarting(new WaitCommand(6));
@@ -381,5 +398,21 @@ public class RobotContainer {
 
   private static boolean getLeftDPad() {
     return operator.getPOV() == 270;
+  }
+
+  private static boolean getRightTrigger() {
+    return driver.getRightTriggerAxis()>0.05;
+  }
+
+  private static boolean getLeftTrigger() {
+    return driver.getLeftTriggerAxis()>0.05;
+  }
+
+  private static boolean getOperatorLeftBumper() {
+    return driver.getRawButton(3);
+  }
+
+  private static boolean getOperatorRightBumper() {
+    return driver.getRawButton(1);
   }
 }

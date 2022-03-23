@@ -77,7 +77,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // /* config all the settings */
     // talon.configAllSettings(configs);
 
-    right.configVoltageCompSaturation(11); // "full output" will now scale to 11 Volts for all control modes when enabled.
+    right.configVoltageCompSaturation(10); // "full output" will now scale to 11 Volts for all control modes when enabled.
     right.enableVoltageCompensation(true);
 
     left.configVoltageCompSaturation(11); 

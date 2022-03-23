@@ -22,6 +22,10 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
  
 public final class Constants {
 
+    public static final String[] autonFiles = { 
+        "Path1"
+     };
+
     public static final int turretID = 12;
     public static final int floorID = 18;
     public static final int intakeID = 20;

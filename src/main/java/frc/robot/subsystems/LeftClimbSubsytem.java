@@ -47,6 +47,10 @@ public class LeftClimbSubsytem extends SubsystemBase {
     // SmartDashboard.putBoolean("leftClimbWorks", false);
   }
 
+  public void stop() {
+    leftClimb.stopMotor();
+  }
+
   public void setPos() {
     leftPID.setReference(leftEnc.getPosition(), CANSparkMax.ControlType.kPosition);
     // SmartDashboard.putBoolean("leftClimbWorks", true);

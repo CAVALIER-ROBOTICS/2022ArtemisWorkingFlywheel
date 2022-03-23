@@ -19,7 +19,7 @@ public class HoodCommand extends PIDCommand {
   public HoodCommand(HoodSubsystem hoodSub) {
     super(
         // The controller that the command will use
-        new PIDController(0.025, 0.007, 0),
+        new PIDController(0.048, 0.007, 0),
         // This should return the measurement
         hoodSub::getAngle,
         // This should return the setpoint (can also be a constant)
@@ -28,7 +28,7 @@ public class HoodCommand extends PIDCommand {
         (output) -> {
           // Use the output here
           hoodSub.setHood(output);
-          SmartDashboard.putNumber("HoodOutput", output);
+          // SmartDashboard.putNumber("HoodOutput", output);
           SmartDashboard.putNumber("table Angle", Limelight.getAngle());
         });
     // Use addRequirements() here to declare subsystem dependencies.

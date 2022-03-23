@@ -24,11 +24,11 @@ public class TraversalAngleSubsystem extends SubsystemBase {
 
   public TraversalAngleSubsystem() {
     angle.restoreFactoryDefaults();
-    angle.setOpenLoopRampRate(2);
+    angle.setOpenLoopRampRate(1);
     angle.setIdleMode(IdleMode.kBrake);
     angle.setInverted(true);
 
-    anglePID.setP(0.1);
+    anglePID.setP(0.08);
     anglePID.setI(0);
     anglePID.setD(0);
     // anglePID.setOutputRange(-.2, .2); 

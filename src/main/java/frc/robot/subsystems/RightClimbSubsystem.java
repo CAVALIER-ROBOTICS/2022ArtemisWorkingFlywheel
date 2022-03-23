@@ -41,8 +41,13 @@ public class RightClimbSubsystem extends SubsystemBase {
   {
     rightClimb.set(x);
   }
+
   public double getVolt() {
     return rightClimb.getOutputCurrent();
+  }
+
+  public void stop() {
+    rightClimb.stopMotor();
   }
 
   public void setPos() {
