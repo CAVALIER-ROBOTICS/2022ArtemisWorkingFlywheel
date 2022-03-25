@@ -76,11 +76,12 @@ public class ShooterSubsystem extends SubsystemBase {
     // configs.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
     // /* config all the settings */
     // talon.configAllSettings(configs);
+    double voltage = 11;
 
-    right.configVoltageCompSaturation(10); // "full output" will now scale to 11 Volts for all control modes when enabled.
+    right.configVoltageCompSaturation(voltage); // "full output" will now scale to 11 Volts for all control modes when enabled.
     right.enableVoltageCompensation(true);
 
-    left.configVoltageCompSaturation(11); 
+    left.configVoltageCompSaturation(voltage); 
     left.enableVoltageCompensation(true);
 
     // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 65300);
@@ -92,14 +93,16 @@ public class ShooterSubsystem extends SubsystemBase {
     // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_4_AinTempVbat, 65300);
     // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_12_Feedback1, 65300); 
 
-    double ff = 0.06;
-    double p = 0.168;
+    double ff = 0.068;
+    double p = 0.168;//.168
     double i = 0;
     double d = 0;
     right.config_kF(0, ff, 10);
 		right.config_kP(0, p, 10);
 		right.config_kI(0, i, 10);
 		right.config_kD(0, d, 10);
+
+    // left.follow(right);
 
     left.config_kF(0, ff, 10);
 		left.config_kP(0, p, 10);
