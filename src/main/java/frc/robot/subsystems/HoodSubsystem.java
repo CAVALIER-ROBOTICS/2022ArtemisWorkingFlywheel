@@ -26,7 +26,7 @@ public class HoodSubsystem extends SubsystemBase {
     // hoodEnc.setPosition(0);
     // hoodMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 65500);
     // hoodMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 60000);
-    hoodMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65510);
+    // hoodMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65510);
     hoodEnc.setPosition(0);
   }
 
@@ -37,17 +37,15 @@ public class HoodSubsystem extends SubsystemBase {
   public void setEncoder(double x){
     hoodEnc.setPosition(x);
   }
-  public double getPos()
-  {
+  public double getPos() {
     return hoodEnc.getPosition();
   }
 
-  public double getAngle()
-  {
+  public double getAngle() {
     return getPos()*30/41+14;
   }
 
-  public double getVoltage(){
+  public double getVoltage() {
     return hoodMotor.getOutputCurrent();
   }
 

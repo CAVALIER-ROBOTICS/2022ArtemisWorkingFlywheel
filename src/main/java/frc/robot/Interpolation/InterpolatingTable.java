@@ -18,19 +18,24 @@ public class InterpolatingTable
     private static final TreeMap<Double, ShotParameter> map = new TreeMap<>(
         Map.ofEntries(
             entry(.9, new ShotParameter(23, 1800, 0.0)),
+            entry(1.0, new ShotParameter(20, 1800, 0.0)),
             entry(1.3, new ShotParameter(25, 1900, 0.0)),
             entry(1.6, new ShotParameter(27, 1950, 0.0)),
-            entry(1.8, new ShotParameter(27, 1970, 0.0)),
+            entry(1.8, new ShotParameter(27, 2000, 0.0)),
             entry(1.9, new ShotParameter(28, 2000, 0.0)),
-            entry(2.2, new ShotParameter(30, 2100, 0.0)),
-            entry(2.4, new ShotParameter(29, 2100, 0.0)),
-            entry(2.6, new ShotParameter(29.5, 2100, 0.0)),
-            entry(2.8, new ShotParameter(30, 2100, 0.0)),
+            entry(2.0, new ShotParameter(28, 1950, 0.0)),
+            entry(2.2, new ShotParameter(29, 2050, 0.0)), 
+            entry(2.4, new ShotParameter(30, 2100, 0.0)),
+            entry(2.6, new ShotParameter(30, 2100, 0.0)),
+            entry(2.8, new ShotParameter(32, 2100, 0.0)), 
+            entry(3.0, new ShotParameter(32, 2200, 0.0)),                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
             entry(3.2, new ShotParameter(30, 2200, 0.0)),
-            entry(3.6, new ShotParameter(35, 2300, 0.0)),
+            entry(3.4, new ShotParameter(33.5, 2200, 0.0)),
+            entry(3.6, new ShotParameter(35, 2300, 0.0)), 
             entry(3.8, new ShotParameter(36.5, 2400, 0.0)),
-            entry(4.0, new ShotParameter(38, 2400, 0.0)),
-            entry(4.3, new ShotParameter(40, 2400, 0.0))
+            entry(4.0, new ShotParameter(37.7, 2400, 0.0)),
+            entry(4.3, new ShotParameter(40, 2400, 0.0)),
+            entry(4.5, new ShotParameter(38, 2600, 0.0))
         )
     );
 

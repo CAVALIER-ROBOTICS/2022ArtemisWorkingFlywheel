@@ -23,7 +23,9 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 public final class Constants {
 
     public static final String[] autonFiles = { 
-        "Path1"
+        "Path1",
+        "Path2"
+
      };
 
     public static final int turretID = 12;
@@ -59,8 +61,8 @@ public final class Constants {
 
         public static double acceptedVolts = 65;
 
-        public static final double XController = 1;
-        public static final double YController = 1;
+        public static final double XController = .8;
+        public static final double YController = .8;
         public static final double ThetaController = 1;
 
         //per second radians                          Math.PI;

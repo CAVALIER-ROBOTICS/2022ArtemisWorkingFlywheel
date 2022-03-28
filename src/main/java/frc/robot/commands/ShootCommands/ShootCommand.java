@@ -30,7 +30,7 @@ public class ShootCommand extends CommandBase {
     SmartDashboard.putNumber("table RPM", Limelight.getRPM());
     shootSub.setShooterVelocity(Limelight.getRPM());
     // shootSub.setShooter(.5);
-
+    // shootSub.setShooterVelocity();
     // if(Math.abs(Limelight.getRPM()-shootSub.getVolicty())<50) {
     //   RobotContainer.operator.setRumble(RumbleType.kLeftRumble, 1.0);
     //   RobotContainer.operator.setRumble(RumbleType.kRightRumble, 1.0);

@@ -19,7 +19,7 @@ public class Robot extends TimedRobot {
   private Command autoSequence;
   private Command autoIntake;
   private Command autoShoot;
-  private Command autoKick;
+  // private Command autoKick;
   private Command autoAim;
 
   private RobotContainer robotContainer;
@@ -62,23 +62,26 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    robotContainer.resetOdo();
+
+
     autoSequence = robotContainer.getSequentialCommand();
     autoIntake = robotContainer.getIntakeCommand();
     autoShoot = robotContainer.getShootCommand();
-    autoKick = robotContainer.getKickerCommand();
+    // autoKick = robotContainer.getKickerCommand();
     autoAim = robotContainer.getAutoAim();
 
-    // if(autoSequence != null) {
-    //   autoSequence.schedule();
-    // }
+    if(autoSequence != null) {
+      autoSequence.schedule();
+    }
 
-    // if(autoIntake != null) {
-    //   autoIntake.schedule();
-    // }
+    if(autoIntake != null) {
+      autoIntake.schedule();
+    }
 
-    // if(autoShoot != null) {
-    //   autoShoot.schedule();
-    // }
+    if(autoShoot != null) {
+      autoShoot.schedule();
+    }
 
     // if(autoKick != null) {
     //   autoKick.schedule();
@@ -87,8 +90,6 @@ public class Robot extends TimedRobot {
     if(autoAim != null) {
       autoAim.schedule();
     }
-
-    robotContainer.resetOdo();
     
     // schedule the autonomous command (example)
     // if (autoDrive != null) {
@@ -126,9 +127,9 @@ public class Robot extends TimedRobot {
       autoShoot.cancel();
     }
 
-    if(autoKick != null) {
-      autoKick.cancel();
-    }
+    // if(autoKick != null) {
+    //   autoKick.cancel();
+    // }
 
     if(autoAim != null) {
       autoAim.cancel();

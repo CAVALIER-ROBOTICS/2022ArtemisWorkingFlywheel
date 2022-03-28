@@ -28,7 +28,7 @@ public class HoodCommand extends PIDCommand {
         (output) -> {
           // Use the output here
           hoodSub.setHood(output);
-          // SmartDashboard.putNumber("HoodOutput", output);
+         
           SmartDashboard.putNumber("table Angle", Limelight.getAngle());
         });
     // Use addRequirements() here to declare subsystem dependencies.

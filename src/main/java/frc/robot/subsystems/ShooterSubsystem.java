@@ -25,7 +25,7 @@ import frc.robot.Constants;
 public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new KickerSubsystem. */
   // CANSparkMax rightShooter = new CANSparkMax(Constants.rightShooterID,MotorType.kBrushless);
-  //CANSparkMax leftShooter = new CANSparkMax(Constants.leftShootID,MotorType.kBrushless);
+  // CANSparkMax leftShooter = new CANSparkMax(Constants.leftShootID,MotorType.kBrushless);
 
   TalonFX right = new TalonFX(Constants.rightShooterID);
   TalonFX left = new TalonFX(Constants.leftShootID);
@@ -60,6 +60,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     left.setInverted(TalonFXInvertType.Clockwise); //was CounterClockwise - is jittering
     
+    // right.follow(left);
+
     right.setInverted(TalonFXInvertType.CounterClockwise); //was Clockwise
 
     // right.setNeutralMode(NeutralMode.Coast);
@@ -93,13 +95,14 @@ public class ShooterSubsystem extends SubsystemBase {
     // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_4_AinTempVbat, 65300);
     // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_12_Feedback1, 65300); 
 
-    double ff = 0.068;
-    double p = 0.168;//.168
+    double ff = 0.0592;//.68
+    double p = .1;//.168
     double i = 0;
     double d = 0;
     right.config_kF(0, ff, 10);
 		right.config_kP(0, p, 10);
 		right.config_kI(0, i, 10);
+    right.config_IntegralZone(0, 100);
 		right.config_kD(0, d, 10);
 
     // left.follow(right);
@@ -107,6 +110,7 @@ public class ShooterSubsystem extends SubsystemBase {
     left.config_kF(0, ff, 10);
 		left.config_kP(0, p, 10);
 		left.config_kI(0, i, 10);
+    left.config_IntegralZone(0, 100);
 		left.config_kD(0, d, 10);
 
 
@@ -123,6 +127,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // leftPID.setI(0.000002);
     // leftPID.setD(0.00009);
     // leftPID.setFF(.000252);
+    
 
     // rightPID.setP(0.00022);
     // rightPID.setI(0.000002);
@@ -152,6 +157,20 @@ public class ShooterSubsystem extends SubsystemBase {
     left.set(ControlMode.Velocity, (rpm/600)*2048);
   }
 
+  // public void setShooterVelocity()
+  // {
+  //   double rpm = SmartDashboard.getNumber("RPM", 0);
+  //   // leftPID.setReference(rpm, ControlType.kVelocity);
+  //   // rightPID.setReference(rpm, ControlType.kVelocity);
+  //   // leftShooter.set(1000, ControlType.kVelocity);
+  //   // leftShooter.set(a);
+  //   // rightShooter.set(a);
+  //   // SmartDashboard.putNumber("Fly Wheel", getVolicty());
+  //   right.set(ControlMode.Velocity, (rpm/600)*2048);
+  //   left.set(ControlMode.Velocity, (rpm/600)*2048);
+  // }
+
+
   public void setShooter(double volt) {
     left.set(ControlMode.PercentOutput, volt);
     right.set(ControlMode.PercentOutput, volt);
@@ -166,6 +185,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler rn
     // SmartDashboard.putNumber("Fly Wheel", getVolicty());
-    SmartDashboard.putNumber("fly Wheel", (right.getSelectedSensorVelocity() * 600) / 2048 );
+    SmartDashboard.putNumber("fly Wheel right", (right.getSelectedSensorVelocity() * 600) / 2048 );
+    SmartDashboard.putNumber("fly Wheel left", (left.getSelectedSensorVelocity() * 600) / 2048 );
   }
 }

@@ -19,9 +19,8 @@ public class AutoIntakeCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new WaitCommand(2.5),
-      new InstantCommand(()->intakeSub.setIntakeMotor(0.7)),
-      new InstantCommand(()->floorSub.setFloor(.3))
+      new InstantCommand(()->intakeSub.setIntakeMotor(18)),
+      new InstantCommand(()->floorSub.setFloor(2))
     );
   }
 }

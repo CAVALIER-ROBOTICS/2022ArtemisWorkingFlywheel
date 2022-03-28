@@ -12,6 +12,7 @@ import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,7 +31,7 @@ public class DriveAuto {
     public DriveAuto(DriveTrainSubsystems d) {
        
         driveSub = d;
-        thetaController = new ProfiledPIDController(Constants.ThetaController, .6, .1, Constants.thetaControllerConstraints);
+        thetaController = new ProfiledPIDController(Constants.ThetaController, .4, 0, Constants.thetaControllerConstraints);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
     }
 
@@ -40,13 +41,12 @@ public class DriveAuto {
         for (int i = 0; i < Constants.autonFiles.length; i++) {
             System.out.println(i);
 
-          trajectoryList.add(i, PathPlanner.loadPath(Constants.autonFiles[i], 2, 4));
+          trajectoryList.add(i, PathPlanner.loadPath(Constants.autonFiles[i], 5, 3));
         }
         return trajectoryList;
     }
-    //lol12
+
     public Command getPathAuto(int desiredPath) {
-        System.out.println("Hehehehe  :)");
         ArrayList<PathPlannerTrajectory> loadedTrajectories = loadTrajectories();
         PPSwerveControllerCommand command = new PPSwerveControllerCommand(
        loadedTrajectories.get(desiredPath),
@@ -59,8 +59,11 @@ public class DriveAuto {
         driveSub); 
 
         // Run path following command, then stop at the end.
-        return command.andThen(() -> driveSub.drive(new ChassisSpeeds(0,0,0))).beforeStarting(
-            new InstantCommand(() -> driveSub.resetOdometry(loadedTrajectories.get(desiredPath).getInitialPose())));
+        return command.andThen(() -> driveSub.drive(new ChassisSpeeds(0,0,0)));
+    }
+
+    public Pose2d getInitalPos() {
+        return loadTrajectories().get(0).getInitialPose();
     }
 
 }

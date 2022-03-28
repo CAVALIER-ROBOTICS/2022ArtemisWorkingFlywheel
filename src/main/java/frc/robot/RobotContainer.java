@@ -99,6 +99,8 @@ public class RobotContainer {
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    // SmartDashboard.putNumber("SetAngle", 14);
+    // SmartDashboard.putNumber("RPM", 0);
     // SmartDashboard.putNumber("Hood Angle input", 14);
     // SmartDashboard.putNumber("RPM input", 1800);
     // path1 = PathPlanner.loadPath("ComplexAutoPath1", 2, 1);
@@ -336,9 +338,16 @@ public class RobotContainer {
 
 
   public Command getSequentialCommand() { 
+    DriveAuto driveAuto = new DriveAuto(driveSub);
     Command commandToReturn = new SequentialCommandGroup(
       new SequentialCommandGroup(
-      new DriveAuto(driveSub).getPathAuto(0)
+      new InstantCommand(()->driveSub.resetOdometry(driveAuto.getInitalPos())),
+      driveAuto.getPathAuto(0),
+      new WaitCommand(1),
+      kickAuto(4),
+      driveAuto.getPathAuto(1),
+      new WaitCommand(1),
+      kickAuto(4)
      //  driveAuto.getPathAuto(1), 
      //  driveAuto.getPathAuto(2), 
      //  driveAuto.getPathAuto(3)
@@ -348,7 +357,7 @@ public class RobotContainer {
    }
 
   public Command getShootCommand() {
-    return new ShootCommand(shooterSub).beforeStarting(new WaitCommand(6));
+    return new ShootCommand(shooterSub);
   }
 
   public Command getKickerCommand() {
@@ -361,6 +370,13 @@ public class RobotContainer {
 
   public Command getIntakeCommand() {
     return new AutoIntakeCommand(intakeSub, floorSub);
+  }
+
+  public Command kickAuto(double x) {
+    return new SequentialCommandGroup(
+      new InstantCommand(()->kickSub.setKicker(3)),
+      new WaitCommand(x),
+      new InstantCommand(()->kickSub.setKicker(0)));
   }
 
 
