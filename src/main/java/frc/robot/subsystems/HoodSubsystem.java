@@ -34,6 +34,11 @@ public class HoodSubsystem extends SubsystemBase {
   {
     hoodMotor.set(x);
   }
+
+  public void setHoodVoltage(double x) {
+    hoodMotor.setVoltage(x);
+  }
+
   public void setEncoder(double x){
     hoodEnc.setPosition(x);
   }

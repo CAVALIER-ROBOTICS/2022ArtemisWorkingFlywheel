@@ -37,6 +37,10 @@ public class TraversalAngleSubsystem extends SubsystemBase {
   public void setAngle(double x) {
     angle.setVoltage(x);
   }
+
+  public double getVoltage() {
+    return angle.getOutputCurrent();
+  }
   
   public void setAnglePos() {
     anglePID.setReference(angleEnc.getPosition(), CANSparkMax.ControlType.kPosition);
@@ -45,6 +49,6 @@ public class TraversalAngleSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // SmartDashboard.putNumber("AngleClimb output", angle.get());
+    SmartDashboard.putNumber("AngleClimb output", getVoltage());
   }
 }

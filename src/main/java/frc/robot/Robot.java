@@ -50,6 +50,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
     Limelight.updateValues();
+    robotContainer.updateOdometry();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -65,7 +66,7 @@ public class Robot extends TimedRobot {
     robotContainer.resetOdo();
 
 
-    autoSequence = robotContainer.getSequentialCommand();
+    autoSequence = robotContainer.getComplexAutoSequentialCommand();
     autoIntake = robotContainer.getIntakeCommand();
     autoShoot = robotContainer.getShootCommand();
     // autoKick = robotContainer.getKickerCommand();
@@ -82,10 +83,6 @@ public class Robot extends TimedRobot {
     if(autoShoot != null) {
       autoShoot.schedule();
     }
-
-    // if(autoKick != null) {
-    //   autoKick.schedule();
-    // }
 
     if(autoAim != null) {
       autoAim.schedule();

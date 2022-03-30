@@ -44,6 +44,15 @@ public class Limelight {
         SmartDashboard.putNumber("Limelight angle", getY());
     }
 
+    public static void setLedMode(boolean isOn) {
+        if(isOn) {
+            table.getEntry("ledMode").setNumber(1);
+        }
+        else {
+            table.getEntry("ledMode").setNumber(3);
+        }
+    }
+
     public static boolean hasTarget() {
         return v>0;
     }

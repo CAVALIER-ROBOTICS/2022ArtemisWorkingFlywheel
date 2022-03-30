@@ -20,7 +20,7 @@ public class IntakeCommand extends ParallelCommandGroup {
 
     addCommands(
       new StartEndCommand(
-        ()-> intakeSub.setIntakeMotor(20), 
+        ()-> intakeSub.setIntakeMotor(25), 
         ()-> intakeSub.stopIntake(),
         intakeSub),
       new StartEndCommand(
