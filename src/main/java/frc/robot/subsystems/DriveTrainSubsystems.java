@@ -104,6 +104,7 @@ public class DriveTrainSubsystems extends SubsystemBase implements DriveTrainCon
   public void drive(ChassisSpeeds speeds)
   {
     states = Constants.m_kinematics.toSwerveModuleStates(speeds);
+    // states = Constants.m_kinematics.toSwerveModuleStates(speeds);
     frontLeftModule.set(states[0].speedMetersPerSecond / maxVelocityPerSecond * maxVoltage, states[0].angle.getRadians());
     frontRightModule.set(states[1].speedMetersPerSecond / maxVelocityPerSecond * maxVoltage, states[1].angle.getRadians());
     backLeftModule.set(states[2].speedMetersPerSecond / maxVelocityPerSecond * maxVoltage, states[2].angle.getRadians());
@@ -112,40 +113,30 @@ public class DriveTrainSubsystems extends SubsystemBase implements DriveTrainCon
 
   public void setModules(SwerveModuleState[] speeds)
   {
+    states = speeds;
     // drive(Constants.m_kinematics.toChassisSpeeds(speeds));
     frontLeftModule.set(speeds[0].speedMetersPerSecond * -1, speeds[0].angle.getRadians());
     frontRightModule.set(speeds[1].speedMetersPerSecond * -1, speeds[1].angle.getRadians());
     backLeftModule.set(speeds[2].speedMetersPerSecond * -1, speeds[2].angle.getRadians());
     backRightModule.set(speeds[3].speedMetersPerSecond * -1, speeds[3].angle.getRadians());
-    updateOdo();
   }
 
   @Override
   public void periodic() {
-    updateOdo(); 
-
-    double[] statesEnc = {
-      frontLeftModule.getSteerAngle(),
-      frontRightModule.getSteerAngle(),
-      backRightModule.getSteerAngle(),
-      backLeftModule.getSteerAngle()
-    };
-   
-    SmartDashboard.putNumberArray("ModuleArray", statesEnc);
   }
 
   public SwerveModuleState[] invert(SwerveModuleState[] x) {
     SwerveModuleState[] temp = new SwerveModuleState[4];
     for(int i = 0; i <4; i++) {
-      temp[i] = new SwerveModuleState(-(x[i].speedMetersPerSecond),x[i].angle);
+      temp[i] = new SwerveModuleState((x[i].speedMetersPerSecond),x[i].angle);
     }
     return temp;
   }
 
   public void updateOdo() {
-    SwerveModuleState[] temp = invert(states);
-    odo.update(pidgey.getRotation2d(), temp[0],temp[1],temp[2],temp[3]);
-    field.setRobotPose(odo.getPoseMeters());
+    // SwerveModuleState[] temp = invert(states);
+    odo.update(pidgey.getRotation2d(), states[0],states[1],states[2],states[3]);
+    field.setRobotPose(getPose());
     // SmartDashboard.putString("Odo", ""+odo.getPoseMeters());
   }
 

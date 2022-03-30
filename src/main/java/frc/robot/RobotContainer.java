@@ -7,6 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
+import edu.wpi.first.util.ErrorMessages;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -26,6 +27,7 @@ import frc.robot.Autonomous.AutoIntakeCommand;
 import frc.robot.Autonomous.AutoKickerCommand;
 import frc.robot.Autonomous.AutonSetUpCommand;
 import frc.robot.Autonomous.DriveAuto;
+import frc.robot.Autonomous.LowerTraversalCommand;
 import frc.robot.commands.ClimbCommands.HoldLeftCommand;
 import frc.robot.commands.ClimbCommands.HoldRightCommand;
 import frc.robot.commands.ClimbCommands.HoldTraversalAngleCommand;
@@ -44,6 +46,7 @@ import frc.robot.commands.ShootCommands.HomeHoodCommand;
 import frc.robot.commands.ShootCommands.HoodCommand;
 import frc.robot.commands.ShootCommands.KickCommand;
 import frc.robot.commands.ShootCommands.ShootCommand;
+import frc.robot.commands.ShootCommands.ToggleLimeLightCommand;
 import frc.robot.commands.TurretCommands.AimCommand;
 import frc.robot.commands.TurretCommands.ManualAimDownCommand;
 import frc.robot.commands.TurretCommands.ManualAimUpCommand;
@@ -171,6 +174,7 @@ public class RobotContainer {
     JoystickButton changeDrive = new JoystickButton(driver, 3);
     JoystickButton shoot = new JoystickButton(operator, 6);
     JoystickButton kicker = new JoystickButton(operator, 5);
+    JoystickButton toggleLimelight = new JoystickButton(operator, 8);
     // JoystickButton climbUp = new JoystickButton(operator, 4);
     // JoystickButton climbDown = new JoystickButton(operator, 1);
     // JoystickButton moveClimbBack = new JoystickButton(operator, 2);
@@ -185,134 +189,19 @@ public class RobotContainer {
 
     JoystickButton aimUp = new JoystickButton(operator,3);
     JoystickButton aimDown = new JoystickButton(operator,2);
-    // JoystickButton raiseHood = new JoystickButton(operator, 1);
-    // JoystickButton lowerHood = new JoystickButton(operator, 4);
+    JoystickButton raiseHood = new JoystickButton(operator, 1);
+    JoystickButton lowerHood = new JoystickButton(operator, 4);
 
-    // raiseHood.whileActiveContinuous(new StartEndCommand(()->hoodSub.setHood(.3), ()->hoodSub.setHood(0), hoodSub));
-    // lowerHood.whileActiveContinuous(new StartEndCommand(()->hoodSub.setHood(-.3), ()->hoodSub.setHood(0), hoodSub));
-
-    // leftClimbDown.whileActiveContinuous(
-    //   new StartEndCommand(
-    //     ()-> leftClimb.set(-.5),
-    //     ()-> leftClimb.stop(),
-    //     leftClimb));
+    raiseHood.whileActiveContinuous(new StartEndCommand(()->hoodSub.setHoodVoltage(2), ()->hoodSub.setHood(0), hoodSub));
+    lowerHood.whileActiveContinuous(new StartEndCommand(()->hoodSub.setHoodVoltage(-2), ()->hoodSub.setHood(0), hoodSub));
     
-    // rightClimbDown.whileActiveContinuous(
-    //   new StartEndCommand(
-    //     ()-> rightClimb.set(-.5),
-    //     ()-> rightClimb.stop(), 
-    //     rightClimb));
-
-    // leftClimbUp.whileActiveContinuous(
-    //   new StartEndCommand(
-    //     ()-> leftClimb.set(.5), 
-    //     ()-> leftClimb.stop(), 
-    //     leftClimb));
-    
-    // rightClimbUp.whileActiveContinuous(
-    //   new StartEndCommand(
-    //     ()-> rightClimb.set(.5), 
-    //     ()-> rightClimb.stop(), 
-    //     rightClimb));
-
-    
-
+    toggleLimelight.toggleWhenPressed(new ToggleLimeLightCommand());
 
     intake.whenHeld(
       new IntakeCommand(intakeSub, floorSub));
 
     outake.whenHeld(
       new OutTakeCommand(intakeSub, floorSub, kickSub));
-    
-    // homeClimb.whenPressed(new ParallelCommandGroup(
-    //   new HomeLeftClimbCommand(leftClimb),
-    //   new HomeRightClimbCommand(rightClimb)
-    // ));
-
-    
-    // traversalDown.whileActiveContinuous(new InTraversalClimbCommand(traversalClimbSub));
-    // traversalUp.whileActiveContinuous(new OutTraversalClimbCommand(traversalClimbSub));
-
-    // angleTraversalDown.whileActiveContinuous(
-    //   new StartEndCommand(
-    //     ()-> traversalAngleSub.setAngle(-15),
-    //     ()-> traversalAngleSub.setAngle(0), 
-    //     traversalAngleSub));
-    
-    // angleTraversalUp.whileActiveContinuous(
-    //   new StartEndCommand(
-    //     ()-> traversalAngleSub.setAngle(15), 
-    //     ()-> traversalAngleSub.setAngle(0),
-    //     traversalAngleSub));
-
-    // climbUp.whileActiveContinuous(new ParallelCommandGroup(
-    //   new StartEndCommand(
-    //     () -> rightClimb.setClimb(0.8),
-    //     () -> rightClimb.setClimb(0), 
-    //     rightClimb),
-    //   new StartEndCommand(
-    //     () -> leftClimb.setClimb(0.8),
-    //     () -> leftClimb.setClimb(0.0),
-    //     leftClimb)));
-
-    // climbDown.whileActiveContinuous(new ParallelCommandGroup(
-    //   new StartEndCommand(
-    //     () -> rightClimb.setClimb(-0.8),
-    //     () -> rightClimb.setClimb(0), 
-    //     rightClimb),
-    //   new StartEndCommand(
-    //     () -> leftClimb.setClimb(-0.8),
-    //     () -> leftClimb.setClimb(0),
-    //     leftClimb)
-    // ));
-
-    //rightClimb.setDefaultCommand(new RunCommand(() -> rightClimb.setClimb(()-> operator.getRightY()), rightClimb));
-    // leftClimb.setDefaultCommand(new RunCommand(() -> leftClimb.setClimb(()-> operator.getLeftY()), leftClimb));
-
-    // traversalDown.whileActiveContinuous(
-    //   new ConditionalCommand(
-    //     new InTraversalClimbCommand(traversalClimbSub),
-    //     new HoldTraversalCommand(traversalClimbSub), 
-    //     ()-> traversalDown.getAsBoolean()));
-      
-    // traversalUp.whileActiveContinuous(
-    //   new ConditionalCommand(
-    //     new OutTraversalClimbCommand(traversalClimbSub), 
-    //     new HoldTraversalCommand(traversalClimbSub), 
-    //     ()-> traversalUp.getAsBoolean()));
-
-    // lowerTraversal.whileActiveContinuous(
-    //   new StartEndCommand(
-    //     ()-> traversalClimbSub.setClimb(-10), 
-    //     ()-> traversalClimbSub.setClimb(0),
-    //     traversalClimbSub));
-
-    // moveTraversalForward.whileActiveContinuous(
-    //   new ConditionalCommand(
-    //     new TraversalClimbCommand(traversalClimbSub),
-    //     new HoldTraversalCommand(traversalClimbSub),
-    //     ()-> moveTraversalForward.getAsBoolean()));
-
-    // raiseTraversal.whileActiveContinuous(
-    //   new ConditionalCommand(
-    //     new TraversalClimbCommand(traversalClimbSub),
-    //     new HoldTraversalCommand(traversalClimbSub),
-    //     ()-> moveTraversalForward.getAsBoolean()));
-
-
-
-
-    // moveTraversalBackward.whileActiveContinuous(
-    //   new StartEndCommand(
-    //     ()-> traversalAngleSub.setAngle(-7),
-    //     ()-> traversalAngleSub.setAngle(0), 
-    //     traversalAngleSub));
-
-
-    
-
-      
-    
   
     aimUp.whileActiveContinuous(new ManualAimUpCommand(turretSub),true);
     aimDown.whileActiveContinuous(new ManualAimDownCommand(turretSub),true);
@@ -336,23 +225,38 @@ public class RobotContainer {
     driveSub.resetOdometry(path.getInitialPose());
   }
 
+  public void updateOdometry() {
+    driveSub.updateOdo();
+  }
 
-  public Command getSequentialCommand() { 
+  public Command getComplexAutoSequentialCommand() { 
     DriveAuto driveAuto = new DriveAuto(driveSub);
     Command commandToReturn = new SequentialCommandGroup(
-      new SequentialCommandGroup(
       new InstantCommand(()->driveSub.resetOdometry(driveAuto.getInitalPos())),
-      driveAuto.getPathAuto(0),
+      new LowerTraversalCommand(traversalAngleSub),
+      driveAuto.getFourBallAutoPath(0),
       new WaitCommand(1),
-      kickAuto(4),
-      driveAuto.getPathAuto(1),
+      kickAuto(2),
+      driveAuto.getFourBallAutoPath(1),
       new WaitCommand(1),
       kickAuto(4)
      //  driveAuto.getPathAuto(1), 
      //  driveAuto.getPathAuto(2), 
      //  driveAuto.getPathAuto(3)
-     ));
+     );
       
+      return commandToReturn;
+   }
+
+   public Command getSimpleAutoSequCommand() {
+    DriveAuto driveAuto = new DriveAuto(driveSub);
+    Command commandToReturn = new SequentialCommandGroup(
+      new InstantCommand(()->driveSub.resetOdometry(driveAuto.getInitalPos())),
+      new LowerTraversalCommand(traversalAngleSub),
+      driveAuto.getSimpleAutoPath(),
+      new WaitCommand(2),
+      kickAuto(3)
+     );
       return commandToReturn;
    }
 
@@ -374,7 +278,7 @@ public class RobotContainer {
 
   public Command kickAuto(double x) {
     return new SequentialCommandGroup(
-      new InstantCommand(()->kickSub.setKicker(3)),
+      new InstantCommand(()->kickSub.setKicker(6)),
       new WaitCommand(x),
       new InstantCommand(()->kickSub.setKicker(0)));
   }
@@ -396,7 +300,7 @@ public class RobotContainer {
   private static double modifyAxis(double value) {
     // Deadband
     value = deadband(value, 0.08);
-    // value = Math.copySign(value * value, value);
+    // value = Math.copySign(value * value, value); 
     return value;
   }
 

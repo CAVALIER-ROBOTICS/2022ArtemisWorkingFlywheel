@@ -31,29 +31,48 @@ public class DriveAuto {
     public DriveAuto(DriveTrainSubsystems d) {
        
         driveSub = d;
-        thetaController = new ProfiledPIDController(Constants.ThetaController, .4, 0, Constants.thetaControllerConstraints);
+        thetaController = new ProfiledPIDController(Constants.ThetaController, 0, 0, Constants.thetaControllerConstraints);//.4
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
     }
 
-    public ArrayList<PathPlannerTrajectory> loadTrajectories() {
+    public ArrayList<PathPlannerTrajectory> loadFourBallTrajectories() {
         //PathPlannerTrajectory[] trajectoryList = {};
         ArrayList<PathPlannerTrajectory> trajectoryList = new ArrayList<PathPlannerTrajectory>();
-        for (int i = 0; i < Constants.autonFiles.length; i++) {
+        for (int i = 0; i < Constants.fourBallAuto.length; i++) {
             System.out.println(i);
 
-          trajectoryList.add(i, PathPlanner.loadPath(Constants.autonFiles[i], 5, 3));
+          trajectoryList.add(i, PathPlanner.loadPath(Constants.fourBallAuto[i], 8, 5));
         }
         return trajectoryList;
     }
 
-    public Command getPathAuto(int desiredPath) {
-        ArrayList<PathPlannerTrajectory> loadedTrajectories = loadTrajectories();
+    public PathPlannerTrajectory loadSimpleAutoTrajectory() {
+        return PathPlanner.loadPath(Constants.simpleAuto, 8, 5);
+    }
+
+    public Command getFourBallAutoPath(int desiredPath) {
+        ArrayList<PathPlannerTrajectory> loadedTrajectories = loadFourBallTrajectories();
         PPSwerveControllerCommand command = new PPSwerveControllerCommand(
-       loadedTrajectories.get(desiredPath),
+        loadedTrajectories.get(desiredPath),
         driveSub::getPose,
         Constants.m_kinematics,
-        new PIDController(Constants.XController, 0, 0),
-        new PIDController(Constants.YController, 0, 0),
+        new PIDController(Constants.TranslationController, 0, 0),//.3
+        new PIDController(Constants.StrafeController, 0, 0),//.3
+        thetaController,
+        driveSub::setModules,
+        driveSub); 
+
+        // Run path following command, then stop at the end.
+        return command.andThen(() -> driveSub.drive(new ChassisSpeeds(0,0,0)));
+    }
+
+    public Command getSimpleAutoPath() {
+        PPSwerveControllerCommand command = new PPSwerveControllerCommand(
+        loadSimpleAutoTrajectory(),
+        driveSub::getPose,
+        Constants.m_kinematics,
+        new PIDController(Constants.TranslationController, 0, 0),//.3
+        new PIDController(Constants.StrafeController, 0, 0),//.3
         thetaController,
         driveSub::setModules,
         driveSub); 
@@ -63,7 +82,7 @@ public class DriveAuto {
     }
 
     public Pose2d getInitalPos() {
-        return loadTrajectories().get(0).getInitialPose();
+        return loadFourBallTrajectories().get(0).getInitialPose();
     }
 
 }
