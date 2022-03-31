@@ -41,13 +41,13 @@ public class DriveAuto {
         for (int i = 0; i < Constants.fourBallAuto.length; i++) {
             System.out.println(i);
 
-          trajectoryList.add(i, PathPlanner.loadPath(Constants.fourBallAuto[i], 8, 5));
+          trajectoryList.add(i, PathPlanner.loadPath(Constants.fourBallAuto[i], 2, 2));
         }
         return trajectoryList;
     }
 
     public PathPlannerTrajectory loadSimpleAutoTrajectory() {
-        return PathPlanner.loadPath(Constants.simpleAuto, 8, 5);
+        return PathPlanner.loadPath(Constants.simpleAuto, 2, 2);
     }
 
     public Command getFourBallAutoPath(int desiredPath) {
