@@ -23,6 +23,8 @@ public class Limelight {
     public static double y;
     public static double area;
     public static double v;
+
+    public static boolean led = true;
     
     public Limelight() {
        
@@ -44,12 +46,14 @@ public class Limelight {
         SmartDashboard.putNumber("Limelight angle", getY());
     }
 
-    public static void setLedMode(boolean isOn) {
-        if(isOn) {
+    public static void setLedMode(boolean x) {
+        if(x) {
             table.getEntry("ledMode").setNumber(1);
+            led = true;
         }
         else {
             table.getEntry("ledMode").setNumber(3);
+            led = false;
         }
     }
 
@@ -84,5 +88,18 @@ public class Limelight {
     public static double getAngle()
     {
         return InterpolatingTable.getShotParameter(getDistance()).getHoodAngle();
+    }
+
+    public static boolean getLedState() {
+        return led;
+    }
+
+    public static double getHoodsetPoint() {
+        if(getLedState()) {
+            return getAngle();
+        }
+        else {
+            return  14;
+        }
     }
 }

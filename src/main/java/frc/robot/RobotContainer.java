@@ -304,21 +304,21 @@ public class RobotContainer {
     return value;
   }
 
-  private static boolean getUpDPad() {
-    return operator.getPOV() == 0;
-  }
+  // private static boolean getUpDPad() {
+  //   return operator.getPOV() == 0;
+  // }
 
-  private static boolean getRightDPad() {
-    return operator.getPOV() == 90;
-  }
+  // private static boolean getRightDPad() {
+  //   return operator.getPOV() == 90;
+  // }
 
-  private static boolean getDownDPad() {
-    return operator.getPOV() == 180;
-  }
+  // private static boolean getDownDPad() {
+  //   return operator.getPOV() == 180;
+  // }
 
-  private static boolean getLeftDPad() {
-    return operator.getPOV() == 270;
-  }
+  // private static boolean getLeftDPad() {
+  //   return operator.getPOV() == 270;
+  // }
 
   private static boolean getRightTrigger() {
     return driver.getRightTriggerAxis()>0.05;

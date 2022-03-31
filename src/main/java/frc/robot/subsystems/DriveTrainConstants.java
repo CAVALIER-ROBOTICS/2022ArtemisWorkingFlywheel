@@ -4,11 +4,11 @@ package frc.robot.subsystems;
 public interface DriveTrainConstants {
 
   //USE CHARACTERIZATION TOOL FOR THIS INFO https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-characterization/introduction.html#introduction-to-robot-characterization
-  public static final double maxVoltage = 7;
+  public static final double maxVoltage = 12;//7
 
 
   // this is just an estimate In radians
-  public static final double maxVelocityPerSecond = 2;
+  public static final double maxVelocityPerSecond = 8;//2
 
   public static final double maxAngularVelocityPerSecond = maxVelocityPerSecond/Math.hypot(0.4041,.4041);
   //when upside down, decreasing offset = turn left/counterclockwise, increasing offset = turn right/clockwise

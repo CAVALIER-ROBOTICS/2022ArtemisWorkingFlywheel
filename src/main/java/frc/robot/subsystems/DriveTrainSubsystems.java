@@ -20,6 +20,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -115,10 +116,10 @@ public class DriveTrainSubsystems extends SubsystemBase implements DriveTrainCon
   {
     states = speeds;
     // drive(Constants.m_kinematics.toChassisSpeeds(speeds));
-    frontLeftModule.set(speeds[0].speedMetersPerSecond * -1, speeds[0].angle.getRadians());
-    frontRightModule.set(speeds[1].speedMetersPerSecond * -1, speeds[1].angle.getRadians());
-    backLeftModule.set(speeds[2].speedMetersPerSecond * -1, speeds[2].angle.getRadians());
-    backRightModule.set(speeds[3].speedMetersPerSecond * -1, speeds[3].angle.getRadians());
+    frontLeftModule.set(speeds[0].speedMetersPerSecond / -maxVelocityPerSecond * maxVoltage, speeds[0].angle.getRadians());
+    frontRightModule.set(speeds[1].speedMetersPerSecond / -maxVelocityPerSecond * maxVoltage, speeds[1].angle.getRadians());
+    backLeftModule.set(speeds[2].speedMetersPerSecond / -maxVelocityPerSecond * maxVoltage, speeds[2].angle.getRadians());
+    backRightModule.set(speeds[3].speedMetersPerSecond / -maxVelocityPerSecond * maxVoltage, speeds[3].angle.getRadians());
   }
 
   @Override
@@ -135,10 +136,21 @@ public class DriveTrainSubsystems extends SubsystemBase implements DriveTrainCon
 
   public void updateOdo() {
     // SwerveModuleState[] temp = invert(states);
-    odo.update(pidgey.getRotation2d(), states[0],states[1],states[2],states[3]);
+    odo.update(pidgey.getRotation2d(), new SwerveModuleState(unitsToDistance(states[0].speedMetersPerSecond),states[0].angle),states[1],states[2],states[3]);
     field.setRobotPose(getPose());
     // SmartDashboard.putString("Odo", ""+odo.getPoseMeters());
   }
+
+  private double unitsToDistance(double sensorCounts){
+    double motorRotations = (double)sensorCounts / 2048;
+    double wheelRotations = motorRotations / 6.75;
+    double positionMeters = wheelRotations * (2 * Math.PI * Units.inchesToMeters(2));
+    return positionMeters;
+  }
+
+  // 0.10033
+  // (14.0 / 50.0) * (25.0 / 19.0) * (15.0 / 45.0)
+  // (15.0 / 32.0) * (10.0 / 60.0)
 
   public Pose2d getPose() {
    return odo.getPoseMeters();
