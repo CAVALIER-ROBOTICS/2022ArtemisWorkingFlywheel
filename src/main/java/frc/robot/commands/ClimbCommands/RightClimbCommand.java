@@ -33,10 +33,10 @@ public class RightClimbCommand extends CommandBase {
   @Override
   public void execute() {
     if(upButton.getAsBoolean()) {
-      rightClimb.set(.5);
+      rightClimb.set(.7);
     }
     else if(downButton.getAsBoolean()) {
-      rightClimb.set(-.5);
+      rightClimb.set(-.6);
     }
     else {
       rightClimb.setPos();

@@ -21,7 +21,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrainSubsystems;
 
 /** Add your docs here. */
-public class DriveAuto {
+public class DriveAuto  {
 
     DriveTrainSubsystems driveSub;
     PathPlannerTrajectory simplePath;
@@ -39,8 +39,6 @@ public class DriveAuto {
         //PathPlannerTrajectory[] trajectoryList = {};
         ArrayList<PathPlannerTrajectory> trajectoryList = new ArrayList<PathPlannerTrajectory>();
         for (int i = 0; i < Constants.fourBallAuto.length; i++) {
-            System.out.println(i);
-
           trajectoryList.add(i, PathPlanner.loadPath(Constants.fourBallAuto[i], 2, 2));
         }
         return trajectoryList;

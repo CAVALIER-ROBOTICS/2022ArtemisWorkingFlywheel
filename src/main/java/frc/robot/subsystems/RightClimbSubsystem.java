@@ -27,7 +27,7 @@ public class RightClimbSubsystem extends SubsystemBase {
     rightClimb.restoreFactoryDefaults();
     rightClimb.setIdleMode(IdleMode.kBrake);
     rightClimb.setInverted(false);
-    // rightClimb.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65360);
+    rightClimb.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65360);
 
     rightPID.setP(.1);
     rightPID.setI(0);

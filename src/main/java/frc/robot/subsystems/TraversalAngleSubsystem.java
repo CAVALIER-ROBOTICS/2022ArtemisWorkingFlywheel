@@ -10,6 +10,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,6 +32,8 @@ public class TraversalAngleSubsystem extends SubsystemBase {
     anglePID.setP(0.08);
     anglePID.setI(0);
     anglePID.setD(0);
+
+    angle.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 62200);
     // anglePID.setOutputRange(-.2, .2); 
   }
 

@@ -116,10 +116,10 @@ public class DriveTrainSubsystems extends SubsystemBase implements DriveTrainCon
   {
     states = speeds;
     // drive(Constants.m_kinematics.toChassisSpeeds(speeds));
-    frontLeftModule.set(speeds[0].speedMetersPerSecond / -maxVelocityPerSecond * maxVoltage, speeds[0].angle.getRadians());
-    frontRightModule.set(speeds[1].speedMetersPerSecond / -maxVelocityPerSecond * maxVoltage, speeds[1].angle.getRadians());
-    backLeftModule.set(speeds[2].speedMetersPerSecond / -maxVelocityPerSecond * maxVoltage, speeds[2].angle.getRadians());
-    backRightModule.set(speeds[3].speedMetersPerSecond / -maxVelocityPerSecond * maxVoltage, speeds[3].angle.getRadians());
+    frontLeftModule.set(speeds[0].speedMetersPerSecond * 5, speeds[0].angle.getRadians());
+    frontRightModule.set(speeds[1].speedMetersPerSecond * 5, speeds[1].angle.getRadians());
+    backLeftModule.set(speeds[2].speedMetersPerSecond * 5, speeds[2].angle.getRadians());
+    backRightModule.set(speeds[3].speedMetersPerSecond * 5, speeds[3].angle.getRadians());
   }
 
   @Override
@@ -136,7 +136,7 @@ public class DriveTrainSubsystems extends SubsystemBase implements DriveTrainCon
 
   public void updateOdo() {
     // SwerveModuleState[] temp = invert(states);
-    odo.update(pidgey.getRotation2d(), new SwerveModuleState(unitsToDistance(states[0].speedMetersPerSecond),states[0].angle),states[1],states[2],states[3]);
+    odo.update(pidgey.getRotation2d(), states[0],states[1],states[2],states[3]);
     field.setRobotPose(getPose());
     // SmartDashboard.putString("Odo", ""+odo.getPoseMeters());
   }

@@ -21,6 +21,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Limelight;
 
 public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new KickerSubsystem. */
@@ -69,8 +70,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // talon.configClosedloopRamp(0.5);//0.5 seconds from nuetral to full power in closed loop control
     // this means you are using the intergrated sensor using the standard 0 channel(always use 0) and it is updating every 10 ms
-    right.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,10);
-    left.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,10);
+    right.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,20);
+    left.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor,0,20);
+
+    
 
     
     // TalonFXConfiguration configs = new TalonFXConfiguration();
@@ -78,25 +81,33 @@ public class ShooterSubsystem extends SubsystemBase {
     // configs.primaryPID.selectedFeedbackSensor = FeedbackDevice.IntegratedSensor;
     // /* config all the settings */
     // talon.configAllSettings(configs);
-    double voltage = 10.5;
+    // double voltage = 10.5;
 
-    right.configVoltageCompSaturation(voltage); // "full output" will now scale to 11 Volts for all control modes when enabled.
-    right.enableVoltageCompensation(true);
+    // right.configVoltageCompSaturation(voltage); // "full output" will now scale to 11 Volts for all control modes when enabled.
+    // right.enableVoltageCompensation(true);
 
-    left.configVoltageCompSaturation(voltage); 
-    left.enableVoltageCompensation(true);
+    // left.configVoltageCompSaturation(voltage); 
+    // left.enableVoltageCompensation(true);
 
-    // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 65300);
+    right.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 62000);
     // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 65310);
-    // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_Targets, 65300);
+    right.setStatusFramePeriod(StatusFrameEnhanced.Status_10_Targets, 65100);
     // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_11_UartGadgeteer, 65300);
     // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_14_Turn_PIDF1, 65300);
-    // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_15_FirmwareApiStatus, 65300);
+    right.setStatusFramePeriod(StatusFrameEnhanced.Status_15_FirmwareApiStatus, 60000);
     // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_4_AinTempVbat, 65300);
     // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_12_Feedback1, 65300); 
 
-    double ff = 0.0639;//.0592
-    double p = 0.0037;//.1
+    left.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 62000);
+    // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 65310);
+    left.setStatusFramePeriod(StatusFrameEnhanced.Status_10_Targets, 65100);
+    // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_11_UartGadgeteer, 65300);
+    // talon.setStatusFramePeriod(StatusFrameEnhanced.Status_14_Turn_PIDF1, 65300);
+    left.setStatusFramePeriod(StatusFrameEnhanced.Status_15_FirmwareApiStatus, 60000);
+
+
+    double ff = 0.06;//.0592
+    double p = 0.002;//.1
     double i = 0;
     double d = 0;
     right.config_kF(0, ff, 10);
@@ -184,7 +195,7 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler rn
-    // SmartDashboard.putNumber("Fly Wheel", getVolicty());
+    SmartDashboard.putNumber("table RPM", Limelight.getRPM());
     SmartDashboard.putNumber("fly Wheel right", (right.getSelectedSensorVelocity() * 600) / 2048 );
     SmartDashboard.putNumber("fly Wheel left", (left.getSelectedSensorVelocity() * 600) / 2048 );
   }

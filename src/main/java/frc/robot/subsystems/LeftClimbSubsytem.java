@@ -27,7 +27,7 @@ public class LeftClimbSubsytem extends SubsystemBase {
     leftClimb.restoreFactoryDefaults();
     leftClimb.setIdleMode(IdleMode.kBrake);
     leftClimb.setInverted(false);
-    // leftClimb.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65410);
+    leftClimb.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65410);
     leftPID.setP(.1);
     leftPID.setI(0);
     leftPID.setD(0);

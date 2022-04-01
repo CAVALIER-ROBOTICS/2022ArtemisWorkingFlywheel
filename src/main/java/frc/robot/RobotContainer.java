@@ -99,6 +99,8 @@ public class RobotContainer {
   Trigger leftClimbUp = new Trigger(()-> getOperatorLeftBumper());
   Trigger rightClimbUp = new Trigger(()-> getOperatorRightBumper());
 
+  DriveAuto driveAuto = new DriveAuto(driveSub);
+
   
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -132,7 +134,7 @@ public class RobotContainer {
     //     ()-> modifyAxis(operator.getRightY())));
 
     traversalAngleSub.setDefaultCommand(new TraversalAngleCommand(traversalAngleSub,()-> operator.getRightY()*-5));
-    traversalClimbSub.setDefaultCommand(new TraversalClimbCommand(traversalClimbSub,()-> operator.getLeftY()*5));
+    traversalClimbSub.setDefaultCommand(new TraversalClimbCommand(traversalClimbSub,()-> operator.getLeftY()*6));
 
     leftClimb.setDefaultCommand(new LeftClimbCommand(leftClimb, ()-> leftClimbUp.getAsBoolean(), ()-> leftClimbDown.getAsBoolean()));
     rightClimb.setDefaultCommand(new RightClimbCommand(rightClimb, ()->rightClimbUp.getAsBoolean(), ()->rightClimbDown.getAsBoolean()));
@@ -230,10 +232,10 @@ public class RobotContainer {
   }
 
   public Command getComplexAutoSequentialCommand() { 
-    DriveAuto driveAuto = new DriveAuto(driveSub);
+    // DriveAuto driveAuto = new DriveAuto(driveSub);
     Command commandToReturn = new SequentialCommandGroup(
       new InstantCommand(()->driveSub.resetOdometry(driveAuto.getInitalPos())),
-      new LowerTraversalCommand(traversalAngleSub),
+      // new LowerTraversalCommand(traversalAngleSub),
       driveAuto.getFourBallAutoPath(0),
       new WaitCommand(1),
       kickAuto(2),
@@ -249,7 +251,7 @@ public class RobotContainer {
    }
 
    public Command getSimpleAutoSequCommand() {
-    DriveAuto driveAuto = new DriveAuto(driveSub);
+    // DriveAuto driveAuto = new DriveAuto(driveSub);
     Command commandToReturn = new SequentialCommandGroup(
       new InstantCommand(()->driveSub.resetOdometry(driveAuto.getInitalPos())),
       new LowerTraversalCommand(traversalAngleSub),

@@ -35,10 +35,10 @@ public class LeftClimbCommand extends CommandBase {
   @Override
   public void execute() {
     if(upButton.getAsBoolean()) {
-      leftClimb.set(.5);
+      leftClimb.set(.7);
     }
     else if(downButton.getAsBoolean()) {
-      leftClimb.set(-.5);
+      leftClimb.set(-.6);
     }
     else {
       leftClimb.setPos();
